@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcryptjs = require('bcryptjs');
 
 //Tratamento dos dados na memoria para enviar para o banco de dados
 const LoginSchema = new mongoose.Schema({
@@ -17,14 +18,24 @@ class Login {
     }
 
     async register(){ 
-        this.valida();
+        this.valida(); //valida os dados puros
         if(this.errors.length > 0) return
 
+        await this.userExists(); //valida os dados com o banco
+        if(this.errors.length > 0) return
+
+        const salt = bcryptjs.genSaltSync()
+        this.body.senha = bcryptjs.hashSync(this.body.senha, salt)
         try {
             this.user = await LoginModel.create(this.body) //tenta criar os dados na base de dados
         } catch (e){
             console.log(e);
         }
+    }
+
+    async userExists() {
+        const user = await LoginModel.findOne({ email: this.body.email})
+        if(user) this.errors.push('Usuário já existe.')
     }
 
     valida(){
