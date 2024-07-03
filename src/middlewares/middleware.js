@@ -1,12 +1,6 @@
 exports.middlewareGlobal = (req, res, next) => {
-
-    // if(req.body.cliente) {
-    //     req.body.cliente = req.body.cliente.replace('Miranda', 'NÃO USE MIRANDA')
-    //     console.log(`Vi que você postou ${req.body.cliente}`);
-    // }
-    res.locals.umaVariavelLocal = "Este é o valor da variavel local"
-
-    // console.log("OI");
+    res.locals.errors = req.flash('errors');
+    res.locals.success = req.flash('success');
     next();
 }
 exports.outroMiddleware = (req, res, next) => {
@@ -16,7 +10,7 @@ exports.outroMiddleware = (req, res, next) => {
 }
 
 exports.checkCsrfError = (err, req, res, next) => {
-    if(err && err.code === "EBADCSRFTOKEN") {
+    if(err) {
         console.log("Passei aqui 12121");
         return res.render('404')
     }
