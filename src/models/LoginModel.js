@@ -76,8 +76,3 @@ class Login {
 }
 
 module.exports = Login;
-
-
-if(!user) {
-} else {
-}
