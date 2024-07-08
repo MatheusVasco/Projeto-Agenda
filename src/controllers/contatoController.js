@@ -56,3 +56,15 @@ exports.edit = async function (req, res) {
         return res.render('404');
     }
 }
+
+exports.delete = async function(req, res) {
+    if(!req.params.id) return res.render('404'); //Se não passar o id, retorna a pagina de erro
+    
+    //Buscar registro na base por id
+    const contato = await Contato.delete(req.params.id) 
+    if (!contato) return res.render('404');
+    
+    req.flash('success', 'Contato apagado com sucesso');
+    req.session.save(() => res.redirect('back'));
+    return;
+}
