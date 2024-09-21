@@ -56,8 +56,8 @@ app.use(routes);
 
 //Quando receber o sinal pronto(conexão com banco) ele irá executar a arrow function
 app.on('pronto', () => {
-    app.listen(3000, () => {
-        console.log('Acessar http://localhost:3000');
-        console.log('Servidor executando na porta 3000')
+    app.listen(3002, () => {
+        console.log('Acessar http://localhost:3002');
+        console.log('Servidor executando na porta 3002')
     })
 })
